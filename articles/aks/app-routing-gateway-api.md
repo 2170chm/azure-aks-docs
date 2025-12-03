@@ -22,7 +22,7 @@ The application routing add-on Kubernetes Gateway API implementation deploys an 
 
 ## Limitations
 
-* The application routing Gateway API implementation and the [Istio service mesh add-on][istio-addon] cannot be enabled simultaneously. You must disable one first in order to enable the other.
+* The application routing Gateway API implementation and the [Istio service mesh add-on][istio-addon] cannot be enabled simultaneously. You must disable one first and enable the other in a separate operation.
 * The application routing Gateway API implementation uses the same [resource customization allowlist][resource-customization-allowlist] as the Istio add-on for validating ConfigMap customizations for `Gateway` resources. Customizations not on the allowlist are disallowed and blocked via add-on managed webhooks.
 * [Azure DNS and TLS certificate management][app-routing-dns-tls] via the application routing add-on is currently not supported for the Kubernetes Gateway API. You can follow the steps in the [Transport Layer Security (TLS) ingress gateway](#configure-a-tls-ingress-gateway) to configure a `Gateway` to perform TLS termination.
 * Configuring HTTPS ingress access to HTTPS services - i.e Server Name Indication (SNI) Passthrough - via the `TLSRoute` resource is currently unsupported.
@@ -457,6 +457,8 @@ Upgrades of Istio control plane for the application routing Gateway API implemen
 
 - Manual: The AKS cluster is upgraded to a new version which has a higher maximum supported Istio version corresponding to it. The Istio control plane will be upgraded to the higher minor version as part of the AKS cluster upgrade.
 - Automatic: A new Istio version is released for AKS and is now the maximum supported Istio version for the AKS cluster version. The Istio control plane on your cluster will automatically be upgraded to the new minor version after the release is rolled out to your region. Follow the [AKS release notes][aks-release-notes] and [AKS release tracker][aks-release-tracker] to track new Istio version releases and see when the new version has rolled out to your region.
+
+It's possible that traffic disruptions could occur during the upgrade process. To minimize disruptions during upgrades, the application routing add-on deploys a Horizontal Pod Autoscaler (HPA) with 2 minimum replicas and a PodDisruptionBudget (PDB) with a minimum availability of 1 for each `Gateway`. You can [customize these resources](#resource-customizations) to modify these settings.
 
 > [!NOTE]
 > Patch version upgrades of the Istio control plane are triggered automatically. Minor version upgrades can be triggered either automatically or manually depending on the AKS version and timing of Istio minor version releases.
