@@ -24,7 +24,7 @@ The application routing add-on Kubernetes Gateway API implementation deploys an 
 ## Limitations
 
 * The application routing Gateway API implementation and the [Istio service mesh add-on][istio-addon] cannot be enabled simultaneously. You must disable one first and enable the other in a separate operation.
-* The application routing Gateway API implementation uses the same [resource customization allowlist][resource-customization-allowlist] as the Istio add-on for validating ConfigMap customizations for `Gateway` resources. Customizations not on the allowlist are disallowed and blocked via add-on managed webhooks.
+* The application routing Gateway API implementation uses the same [resource customization allowlist][istio-gateway-resource-customization] as the Istio add-on for validating ConfigMap customizations for `Gateway` resources. Customizations not on the allowlist are disallowed and blocked via add-on managed webhooks.
 * [Azure DNS and TLS certificate management][app-routing-dns-tls] via the application routing add-on is currently not supported for the Kubernetes Gateway API. You can follow the steps in the [Transport Layer Security (TLS) ingress gateway](#configure-a-tls-ingress-gateway) to configure a `Gateway` to perform TLS termination.
 * Configuring HTTPS ingress access to HTTPS services - i.e Server Name Indication (SNI) Passthrough - via the `TLSRoute` resource is currently unsupported.
 * Egress traffic management via the application routing Gateway API implementation is unsupported.
@@ -470,7 +470,7 @@ It's possible that traffic disruptions could occur during the upgrade process. T
 
 ## Resource customizations
 
-The application routing Gateway API implementation supports customization of the `Gateway` resources via annotations and ConfigMaps. Application routing uses the same resource customization allowlist as the Istio service mesh add-on for Gateway API resource customization. Follow the steps in the [Istio add-on Gateway API docs][istio-gateway-resource-customization] to configure resources generated for the `Gateways` and to see which fields fall under the [allowlist][resource-customization-allowlist].
+The application routing Gateway API implementation supports customization of the `Gateway` resources via annotations and ConfigMaps. Application routing uses the same resource customization allowlist as the Istio service mesh add-on for Gateway API resource customization. Follow the steps in the [Istio add-on Gateway API docs][istio-gateway-resource-customization] to configure resources generated for the `Gateways` and to see which fields fall under the [allowlist][istio-gateway-resource-customization].
 
 ## Disable the application routing Gateway API implementation
 
@@ -513,8 +513,7 @@ kubectl delete secretproviderclass httpbin-credential-spc
 [azure-internal-lb]: ./internal-lb.md
 [aks-release-tracker]: ./release-tracker.md
 [istio-addon]: istio-about.md
-[istio-gateway-resource-customization]: istio-gateway-api.md#resource-customizations
-[resource-customization-allowlist]: istio-gateway-api.md#resource-customization-allowlist
+[istio-gateway-resource-customization]: istio-gateway-api.md#configmap-customizations
 [managed-gateway-api]: managed-gateway-api.md
 [istio-release-calendar]: istio-support-policy.md#service-mesh-add-on-release-calendar
 [istio-meshconfig]: istio-meshconfig.md#allowed-supported-and-blocked-meshconfig-values
