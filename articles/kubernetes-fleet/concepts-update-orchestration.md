@@ -28,7 +28,7 @@ The following image visualizes an upgrade run containing two update stages, each
 * **Update group**: Each update stage contains one or more update groups, which are used to select the member clusters to be updated. Update groups are also used to order the application of updates to member clusters. Within an update stage, updates are applied to all the different update groups in parallel; within an update group, member clusters update sequentially. Each member cluster of the fleet can only be a part of one update group.
 * **Approval gates (preview)**: Can be configured before or after each stage or group. Approvals pause the update run, allowing either you or automations that you've set up to check that it's OK to proceed. After you or your automation grants approval, the update run will continue.
 * **Max Concurrency (preview)**: 
-You can optionally configure **MaxConcurrency** at the stage level and/or the group level which controls how many clusters can upgrade concurrently. For more information, see [MaxConcurrency](#maxconcurrency-preview).
+You can optionally configure `MaxConcurrency` at the stage level and/or the group level which controls how many clusters can upgrade concurrently. For more information, see [MaxConcurrency](#maxconcurrency-preview).
 
 * **Update strategy**: An update strategy describes the update sequence with stages and groups and allows you to reuse an update run configuration instead of defining the sequence repeatedly in each run. An update strategy doesn't include desired Kubernetes or node image versions.
 
@@ -168,14 +168,16 @@ Examples:
 - **Group level**: Defines the maximum number of clusters that can upgrade concurrently within a specific group.
 
 > [!NOTE]
-> When no `MaxConcurrency` value is specified, the system will default MaxConcurrency values to stage.maxConcurrency = 10, group.maxConcurrency = 1.
+> When no `MaxConcurrency` value is specified, the system will default MaxConcurrency values to `stage.maxConcurrency = 10`, `group.maxConcurrency = 1`.
 
 `MaxConcurrency` accepts two value forms:
 
 - **Fixed integer**: For example, `"3"` limits concurrency to exactly three clusters.
 - **Percentage**: For example, `"25%"` limits concurrency to a percentage of clusters. For stage-level settings, the percentage is calculated from all clusters in the stage. For group-level settings, the percentage is calculated from the clusters in that group. Percentages are calculated at runtime, rounded down, and enforced with a minimum resolved value of 1.
 
-### Concurrency Control suggestions:
+The update strategy stores `MaxConcurrency` values as strings (for example, `"3"` or `"25%"`). When an update run is created from the strategy, these string values are resolved into concrete integers based on the actual cluster counts at that time. The resolved integer values are visible on the update run, so you can see exactly how many clusters are allowed to upgrade concurrently. For example, a strategy value of `"25%"` applied to a stage with 20 clusters resolves to `5` on the update run.
+
+### Concurrency control suggestions:
 If you want to Upgrade with safety (less speed, but less likely to end with multiple broken clusters): set MaxConcurrency to a lower value.
 If you want to Upgrade with speed (more speed, but more likely end with multiple broken clusters): set MaxConcurrency to a higher value.
 
