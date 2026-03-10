@@ -17,9 +17,12 @@ ms.author: nshankar
 The application routing add-on now supports the Kubernetes Gateway API for ingress traffic management. If you are using [managed NGINX][app-routing-nginx] with the legacy Ingress API, migrating to using the Kubernetes Gateway API implementation is strongly recommended.
 
 The application routing add-on Kubernetes Gateway API implementation deploys an Istio control plane to manage infrastructure for Kubernetes Gateway API resources. However, it differs from the [Istio service mesh add-on for AKS][istio-addon] in the following ways:
-* The application routing add-on manages infrastructure for `Gateways` with `gatewayClassName` of `approuting-istio`, whereas the Istio add-on manages infrastructure for `Gateways` with `gatewayClassName` of `istio`.
-* The application routing add-on's Istio control plane does not support sidecar injection or other Istio Custom Resource Definitions (CRDs). It only manages infrastructure for Kubernetes Gateway API resources.
-* The application routing add-on's Istio control plane is not [revisioned][istio-revisions] and is upgraded in-place for both minor and patch version updates.
+
+| Feature | Application routing Gateway API | Istio service mesh add-on |
+|---------|--------------------------------|---------------------------|
+| Gateway Class name | `approuting-istio` | `istio` |
+| Sidecar injection and Istio CRD support | Not supported. Only manages infrastructure for Kubernetes Gateway API resources | Supported |
+| Revisioning and upgrades | Not [revisioned][istio-revisions]. Upgraded in-place for both minor and patch version updates | Revisioned. Upgraded via [canary upgrades][istio-canary-upgrades]for minor version updates and in-place for patch version updates |
 
 ## Limitations
 
@@ -68,7 +71,7 @@ azure-service-mesh-ccp-validating-webhook   1          4m2s
 
 ## Install Managed Gateway API CRDs
 
-Follow the instructions in the [Managed Gateway API document][managed-gateway-api] to install the Kubernetes Gateway API CRDs onto your cluster. Because the Managed Gateway API installation requires another implementation to be enabled first, you must enable the application routing Gateway API implementation prior to, or simultaneously with, enabling the Managed Gateway API CRDs. Note that use of self-managed Gateway API CRDs with the application routing add-on is unsupported.
+Follow the instructions in the [Managed Gateway API document][managed-gateway-api] to install the Kubernetes Gateway API CRDs onto your cluster. Note that use of self-managed Gateway API CRDs with the application routing add-on is unsupported.
 
 After installing the CRDs, you should also see the Istio gateway customization ConfigMap get created:
 
@@ -468,6 +471,24 @@ It's possible that traffic disruptions could occur during the upgrade process. T
 
 ## Resource customizations
 
+### Control plane Horizontal Pod Autoscaling (HPA) customization
+
+application routing Gateway API implementation supports customization of the Istio control plane Horizontal Pod Autoscaler (HPA). The `istiod` HPA resource has the following default configurations:
+- Min Replicas: 2
+- Max Replicas: 5
+- CPU Utilization: 80%
+
+> [!NOTE]
+> To prevent conflicts with the `PodDisruptionBudget`, the  does not allow setting the `minReplicas` below the initial default of `2`.
+
+The HPA configuration can be modified through patches and direct edits. Example:
+
+```bash
+kubectl patch hpa istio -n aks-istio-system --type merge --patch '{"spec": {"minReplicas": 3, "maxReplicas": 6}}'
+```
+
+### Gateway resource customization
+
 The application routing Gateway API implementation supports customization of the `Gateway` resources via annotations and ConfigMaps. Application routing uses the same resource customization allowlist as the Istio service mesh add-on for Gateway API resource customization. Follow the steps in the [Istio add-on Gateway API docs][istio-gateway-resource-customization] to configure resources generated for the `Gateways` and to see which fields fall under the [allowlist][istio-gateway-resource-customization].
 
 > [!NOTE]
@@ -519,6 +540,7 @@ kubectl delete secretproviderclass httpbin-credential-spc
 [istio-release-calendar]: istio-support-policy.md#service-mesh-add-on-release-calendar
 [istio-meshconfig]: istio-meshconfig.md#allowed-supported-and-blocked-meshconfig-values
 [istio-support-policy]: istio-support-policy.md#allowed-supported-and-blocked-customizations
+[istio-canary-upgrades]: ./istio-upgrade.md#minor-revision-upgrade
 
 <!-- LINKS - external -->
 [aks-release-notes]: https://github.com/azure/aks/releases
