@@ -46,6 +46,14 @@ The application routing add-on Kubernetes Gateway API implementation deploys an 
     ```
 * Enable the [Managed Gateway API installation][managed-gateway-api]. Use of self-managed Gateway API CRDs with the application routing add-on is unsupported.
 
+* Register the App Routing Gateway API preview feature flag
+
+- Register the `AppRoutingIstioGatewayAPIPreview` feature flag using the [`az feature register`](/cli/azure/feature#az-feature-register) command.
+
+    ```azurecli-interactive
+    az feature register --namespace "Microsoft.ContainerService" --name "AppRoutingIstioGatewayAPIPreview"
+    ```
+
 ## Enable the application routing Gateway API implementation
 
 Set environment variables
