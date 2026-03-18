@@ -153,7 +153,7 @@ Encryption is applied only when both pods are enrolled. Traffic between enrolled
 
 ## Next steps
 
-- Learn how to apply [Cilium mTLS encryption](container-network-security-cilium-mtls-how-to.md) on AKS.
+- Learn how to apply [Cilium mTLS encryption](container-network-security-cilium-mutual-tls-how-to.md) on AKS.
 
 - For more information about Advanced Container Networking Services for Azure Kubernetes Service (AKS), see [What is Advanced Container Networking Services for Azure Kubernetes Service (AKS)?](advanced-container-networking-services-overview.md).
 
