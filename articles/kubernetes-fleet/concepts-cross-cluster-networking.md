@@ -66,7 +66,6 @@ This approach means you can use Fleet Manager's [Update Runs and Strategies][fle
 
 <!-- INTERNAL LINKS -->
 [aks-acns-enabled]: ../aks/use-advanced-container-networking-services.md?pivots=cilium
-[howto-configure-cross-cluster]: ./howto-configure-use-cross-cluster-networking.md
 [az-aks-get-credentials]: /cli/azure/aks#az-aks-get-credentials
 [fleet-update-runs]: ./concepts-update-orchestration.md
 

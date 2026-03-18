@@ -81,11 +81,6 @@ landingContent:
         links:
           - text: Deploy Kubernetes resources across multiple clusters
             url: quickstart-resource-propagation.md
-      - linkListType: quickstart
-        links:
-          - text: Set up cross-cluster networking
-            url: howto-configure-use-cross-cluster-networking.md
-
 
   - title: API reference
     linkLists:

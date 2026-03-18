@@ -21,7 +21,7 @@ Azure Kubernetes Fleet Manager delivers capabilities that extends the Kubernetes
 
 Multiple cross-cluster networks can be defined in Fleet Manager, providing administrators with the flexibility to control which member clusters can publish and access global services integrated with standard Kubernetes Services and CoreDNS.
 
-For more information, see [configure and use cross-cluster networking](./howto-configure-use-cross-cluster-networking.md).
+For more information, see [configure and use cross-cluster networking](./concepts-cross-cluster-networking.md).
 
 ## Resilient public entry point across clusters (north–south)
 
@@ -39,6 +39,5 @@ For more information, see [overview of layer 4 load balancing](./concepts-l4-loa
 
 ## Next steps
 
-* [How to: Configure and use Fleet Manager Cross Cluster Connectivity (preview)](./howto-configure-use-cross-cluster-networking.md)
 * [How to: Set up DNS load balancing across Azure Kubernetes Fleet Manager member clusters (preview)](./howto-dns-load-balancing.md).
 * [Set up multi-cluster layer 4 load balancing across Azure Kubernetes Fleet Manager member clusters (preview)](./l4-load-balancing.md).
