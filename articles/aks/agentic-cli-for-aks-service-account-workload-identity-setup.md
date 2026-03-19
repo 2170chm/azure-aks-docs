@@ -77,44 +77,48 @@ kubectl create serviceaccount "${SERVICE_ACCOUNT_NAME}" -n "${SERVICE_ACCOUNT_NA
 
 Create the necessary Role and RoleBinding for the service account with read access for aks-mcp troubleshooting. Here are two examples based on your access requirements:
 
-- **Cluster-wide read access (recommended for cluster administrators)**: Use this ClusterRoleBinding to grant read-only access to all Kubernetes resources except secrets across all namespaces. This option is recommended for cluster-level administrators or DevOps engineers who need to investigate and troubleshoot issues across the entire cluster.
+#### Cluster-wide read access (recommended for cluster administrators)
 
-   ```bash
-   cat <<EOF | kubectl apply -f -
-   apiVersion: rbac.authorization.k8s.io/v1
-   kind: ClusterRoleBinding
-   metadata:
-     name: aks-mcp-view-rolebinding
-   roleRef:
-     apiGroup: rbac.authorization.k8s.io
-     kind: ClusterRole
-     name: view
-   subjects:
-   - kind: ServiceAccount
-     name: ${SERVICE_ACCOUNT_NAME}
-     namespace: ${SERVICE_ACCOUNT_NAMESPACE}
-   EOF
-   ```
+Use this ClusterRoleBinding to grant read-only access to all Kubernetes resources except secrets across all namespaces. This option is recommended for cluster-level administrators or DevOps engineers who need to investigate and troubleshoot issues across the entire cluster.
 
-- **Namespace-scoped read access (for limited access scenarios)**: Use RoleBindings to grant read-only access to all Kubernetes resources except secrets in specific namespaces only. This option is suitable for teams or users who should have limited access to specific namespaces rather than the entire cluster. Repeat this RoleBinding for each namespace that requires access.
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: aks-mcp-view-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: ServiceAccount
+  name: ${SERVICE_ACCOUNT_NAME}
+  namespace: ${SERVICE_ACCOUNT_NAMESPACE}
+EOF
+```
 
-   ```bash
-   cat <<EOF | kubectl apply -f -
-   apiVersion: rbac.authorization.k8s.io/v1
-   kind: RoleBinding
-   metadata:
-     name: aks-mcp-view-rolebinding
-     namespace: ${SERVICE_ACCOUNT_NAMESPACE}
-   roleRef:
-     apiGroup: rbac.authorization.k8s.io
-     kind: ClusterRole
-     name: view
-   subjects:
-   - kind: ServiceAccount
-     name: ${SERVICE_ACCOUNT_NAME}
-     namespace: ${SERVICE_ACCOUNT_NAMESPACE}
-   EOF
-   ```
+#### Namespace-scoped read access (for limited access scenarios)
+
+Use RoleBindings to grant read-only access to all Kubernetes resources except secrets in specific namespaces only. This option is suitable for teams or users who should have limited access to specific namespaces rather than the entire cluster. Repeat this RoleBinding for each namespace that requires access.
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: aks-mcp-view-rolebinding
+  namespace: ${SERVICE_ACCOUNT_NAMESPACE}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: ServiceAccount
+  name: ${SERVICE_ACCOUNT_NAME}
+  namespace: ${SERVICE_ACCOUNT_NAMESPACE}
+EOF
+```
 
 ### Verify the service account resources
 
