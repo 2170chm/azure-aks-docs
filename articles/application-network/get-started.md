@@ -16,7 +16,7 @@ This article helps you get started with Azure Kubernetes Application Network for
 
 - An Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/free/).
 - Azure CLI version 2.84.0 or later. Check your version using the `az --version` command. To install or update, see [Install Azure CLI](/cli/azure/install-azure-cli).
-- If using an existing AKS cluster, make sure [workload identity](/azure/aks/workload-identity-deploy-cluster) and [OIDC issuer](/azure/aks/use-oidc-issuer) are enabled. These features are required for Azure Kubernetes Application Network connectivity and security.
+- If using an existing AKS cluster, make sure [AKS-managed Microsoft Entra integration](/azure/aks/enable-authentication-microsoft-entra-id) and [OIDC issuer](/azure/aks/use-oidc-issuer) are enabled. These features are required for Azure Kubernetes Application Network connectivity and security.
 - Verify support for your existing Kubernetes cluster using the [support policy](./supported-versions.md).
 
 ## Set environment variables
@@ -76,7 +76,7 @@ This article helps you get started with Azure Kubernetes Application Network for
 > [!NOTE]
 > Member clusters **don't** need to be in separate resource groups. They can be in the same resource group as the Azure Kubernetes Application Network resource. However, all member clusters must be in the same tenant.
 
-If you don't have an existing AKS cluster to connect to Azure Kubernetes Application Network, you need to create one. Azure Kubernetes Application Network requires AKS clusters with workload identity and OIDC issuer enabled. If you have an existing cluster, you can skip this step.
+If you don't have an existing AKS cluster to connect to Azure Kubernetes Application Network, you need to create one. Azure Kubernetes Application Network requires AKS clusters with AKS-managed Microsoft Entra integration and OIDC issuer enabled. If you have an existing cluster, you can skip this step.
 
 1. Create a resource group for your AKS cluster using the [`az group create`][az-group-create] command.
 
@@ -84,10 +84,10 @@ If you don't have an existing AKS cluster to connect to Azure Kubernetes Applica
     az group create --name $AKS_RG --location $LOCATION 
     ```
 
-1. Create an AKS cluster with workload identity and OIDC issuer enabled using the [`az aks create`][az-aks-create] command with the `--enable-oidc-issuer` and `--enable-workload-identity` flags.
+1. Create an AKS cluster with AKS-managed Microsoft Entra integration and OIDC issuer enabled using the [`az aks create`][az-aks-create] command with the `--enable-oidc-issuer` and `--enable-aad` flags.
 
     ```azurecli-interactive
-    az aks create --name $CLUSTER_NAME --resource-group $AKS_RG --enable-oidc-issuer --enable-workload-identity
+    az aks create --name $CLUSTER_NAME --resource-group $AKS_RG --enable-oidc-issuer --enable-aad
     ```
 
 ## Create an Azure Kubernetes Application Network resource

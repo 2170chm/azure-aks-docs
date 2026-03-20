@@ -6,6 +6,7 @@ ms.author: schaffererin
 ms.service: azure
 ms.topic: overview
 ms.date: 11/04/2025
+ms.custom: references_regions
 ---
 
 # Overview of Azure Kubernetes Application Network for AKS
@@ -44,7 +45,7 @@ Application Network supports single-cluster AKS deployments running **Linux-base
 
 Application Network currently has the following limitations:
 
-- Linux-only. Windows node pools aren't supported.
+- Linux only. Windows node pools aren't supported.
 - Switching between upgrade modes `SelfManaged` and `FullyManaged` isn't supported.
 - Currently supported only in the following regions:
   - centralus
@@ -53,6 +54,7 @@ Application Network currently has the following limitations:
   - westus3
   - northeurope
   - southeastasia
+- Enabling the [Istio-based service mesh add-on for AKS](/azure/aks/istio-about) isn't supported on clusters connected to Application Network.
 
 ## Related content
 

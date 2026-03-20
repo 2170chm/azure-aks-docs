@@ -42,7 +42,7 @@ Application Network automatically manages the entire certificate lifecycle for r
 
 The following diagram illustrates the certificate hierarchy in Application Network, showing how the root CA, intermediate CAs, and workload certificates are structured to establish trust across connected clusters:
 
-:::image type="content" source="./media/security/certificate-management.png" alt-text="Screenshot of a diagram that illustrates the certificate hierarchy in Azure Kubernetes Application Network, showing how the root CA, intermediate CAs, and workload certificates are structured to establish trust across connected clusters" lightbox="./media/security/certificate-management.png":::
+:::image type="content" source="./media/security/certificate-management.png" alt-text="Screenshot of a diagram that illustrates the certificate hierarchy in Azure Kubernetes Application Network, showing how the root CA, intermediate CAs, and workload certificates are structured to establish trust across connected clusters." lightbox="./media/security/certificate-management.png":::
 
 ### Certificate hierarchy and lifecycle
 

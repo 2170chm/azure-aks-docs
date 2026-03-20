@@ -254,6 +254,9 @@ This architecture demonstrates how a distributed application can span across mul
 
 ### Verify application access
 
+> [!NOTE]
+> You need to make sure your Network Security Group (NSG) rules allow traffic from the Internet via port 80.
+
 - Access the application through the ingress gateway using the following commands:
 
     ```bash
@@ -906,7 +909,7 @@ This architecture demonstrates how a distributed application can span across mul
 1. To see the impact of this delay, open a browser and navigate to `http://$BOOK_INFO_GTW_IP/productpage`. Initially, you shouldn't see any rating stars under the "Book Reviews" section since all the traffic goes to `reviews-v1`.
 1. Sign in using username `jason` and any password you want.
 
-    :::image type="content" source="./media/traffic-management-use-cases/book-info-sample-sign-in.png" alt-text="Screenshot of the sign in page of the Book Info sample application.":::
+    :::image type="content" source="./media/traffic-management-use-cases/book-info-sample-sign-in-new.png" alt-text="Screenshot of the sign in page of the Book Info sample application.":::
 
     You should notice the webpage becomes very slow, with each refresh taking around six seconds. The "Book Reviews" section should show an error.
 
