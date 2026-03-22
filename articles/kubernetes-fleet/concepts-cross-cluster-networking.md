@@ -1,7 +1,7 @@
 ---
 title: "Cross-cluster networking for Azure Kubernetes Fleet Manager"
 description: This article provides a conceptual overview of Cross-cluster networking for Azure Kubernetes Fleet Manager. 
-ms.date: 03/18/2026
+ms.date: 03/23/2026
 author: sjwaight
 ms.author: simonwaight
 ms.service: azure-kubernetes-fleet-manager
