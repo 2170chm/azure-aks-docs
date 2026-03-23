@@ -105,11 +105,11 @@ Ztunnel enforces the following guarantees:
 
 By centralizing mTLS enforcement at the node level, ztunnel provides strong security properties without increasing per-pod operational overhead.
 
-### Cilium (redirtecton rules and pod enrolment)
+### Cilium (redirection rules and pod enrollment)
 
 Cilium is responsible for making mTLS transparent to applications.
 
-When a namespace is labelled with “io.cilium/mtls-enabled=true”, The Cilium agent enrolls all pods in that namespace. It enters each pod's network namespace and installs iptables rules that redirect outbound traffic to ztunnel on port 15001.  
+When a namespace is labelled with “io.cilium/mtls-enabled=true”, the Cilium agent enrolls all pods in that namespace. It enters each pod's network namespace and installs iptables rules that redirect outbound traffic to ztunnel on port 15001.  
 
 Cilium also passes workload metadata, such as the Pod UID, to ztunnel and integrates with the Cilium Operator to register workload identities with SPIRE.
 
